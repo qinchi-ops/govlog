@@ -1,17 +1,26 @@
 <mxfile host="65bd71144e">
     <diagram id="30Crit2qrkDvp4RFuSIm" name="Page-1">
-        <mxGraphModel dx="730" dy="457" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="742" dy="615" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="3" value="login&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="50" y="210" width="120" height="60" as="geometry"/>
+                <mxCell id="32" value="" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;connectable=1;" vertex="1" parent="1">
+                    <mxGeometry x="280" width="250" height="450" as="geometry"/>
                 </mxCell>
-                <mxCell id="4" value="user management" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="294" y="210" width="120" height="60" as="geometry"/>
+                <mxCell id="31" value="" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;connectable=1;" vertex="1" parent="1">
+                    <mxGeometry x="530" width="260" height="450" as="geometry"/>
                 </mxCell>
-                <mxCell id="5" value="blogs" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="560" y="210" width="120" height="60" as="geometry"/>
+                <mxCell id="29" value="" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;connectable=1;" vertex="1" parent="1">
+                    <mxGeometry x="30" width="250" height="450" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="登录管理&lt;br&gt;资源类型 访问令牌(token)&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="50" y="210" width="200" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="user management&lt;br&gt;资源类型 user" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="294" y="210" width="206" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="文章管理&lt;br&gt;管理类型 博客文档(blogs)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="560" y="210" width="220" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="6" value="1. id&lt;br&gt;2. username&lt;br&gt;3. password&lt;br&gt;4. role(guest)&lt;br&gt;&lt;br&gt;Method:&lt;br&gt;Checkpassword" style="whiteSpace=wrap;html=1;aspect=fixed;align=left;" vertex="1" parent="1">
                     <mxGeometry x="294" y="320" width="120" height="120" as="geometry"/>
@@ -19,8 +28,59 @@
                 <mxCell id="7" value="1. access_token&lt;br&gt;2. username&lt;br&gt;3. issue_at&lt;br&gt;4. access_expired_at&lt;br&gt;5. refresh_expired_at&lt;br&gt;6. refresh_token&lt;br&gt;7. nicename&lt;br&gt;8. role" style="whiteSpace=wrap;html=1;aspect=fixed;align=left;" vertex="1" parent="1">
                     <mxGeometry x="50" y="315" width="120" height="120" as="geometry"/>
                 </mxCell>
-                <mxCell id="8" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;1. id&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;2. author&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;3. creater&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;4. title&lt;/span&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;align=left;" vertex="1" parent="1">
+                <mxCell id="8" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;1. id&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;2. author&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;3. creater&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;4. title&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;5. blog&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;6. summary&lt;/span&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;align=left;" vertex="1" parent="1">
                     <mxGeometry x="560" y="320" width="120" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="令牌颁发:login" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="50" y="85" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="令牌撤销:logout" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="50" y="150" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="token:内部接口" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="150" y="115" width="100" height="35" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="change password" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="294" y="70" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="create user" style="rounded=0;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+                    <mxGeometry x="294" y="115" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="query" style="rounded=0;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+                    <mxGeometry x="294" y="160" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="文章修改" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="680" y="60" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="文章创建" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="560" y="60" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="文章评论" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="560" y="150" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="文章删除" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="560" y="110" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="文章查询" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="680" y="110" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="token" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="23" target="5">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="812" y="80"/>
+                            <mxPoint x="820" y="80"/>
+                            <mxPoint x="820" y="255"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="23" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+                    <mxGeometry x="797" y="10" width="30" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;外部接口:HTTP&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="50" y="30" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;内部接口:others&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="150" y="30" width="100" height="30" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
