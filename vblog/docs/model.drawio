@@ -1,0 +1,28 @@
+<mxfile host="65bd71144e">
+    <diagram id="30Crit2qrkDvp4RFuSIm" name="Page-1">
+        <mxGraphModel dx="730" dy="457" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="3" value="login&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="50" y="210" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="user management" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="294" y="210" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="blogs" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="560" y="210" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="1. id&lt;br&gt;2. username&lt;br&gt;3. password&lt;br&gt;4. role(guest)&lt;br&gt;&lt;br&gt;Method:&lt;br&gt;Checkpassword" style="whiteSpace=wrap;html=1;aspect=fixed;align=left;" vertex="1" parent="1">
+                    <mxGeometry x="294" y="320" width="120" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="1. access_token&lt;br&gt;2. username&lt;br&gt;3. issue_at&lt;br&gt;4. access_expired_at&lt;br&gt;5. refresh_expired_at&lt;br&gt;6. refresh_token&lt;br&gt;7. nicename&lt;br&gt;8. role" style="whiteSpace=wrap;html=1;aspect=fixed;align=left;" vertex="1" parent="1">
+                    <mxGeometry x="50" y="315" width="120" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;1. id&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;2. author&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;3. creater&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;4. title&lt;/span&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;align=left;" vertex="1" parent="1">
+                    <mxGeometry x="560" y="320" width="120" height="120" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
