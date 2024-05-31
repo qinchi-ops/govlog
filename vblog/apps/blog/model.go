@@ -15,6 +15,8 @@ import (
 //			&ChangedBlogStatusRequest{},
 //		}
 //	}
+//
+// test for ssh key
 func NewBlog() *Blog {
 	return &Blog{
 		&Meta{
