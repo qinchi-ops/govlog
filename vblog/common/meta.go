@@ -1,6 +1,8 @@
 package common
 
-import "time"
+import (
+	"time"
+)
 
 func NewMeta() *Meta {
 	return &Meta{
