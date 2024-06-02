@@ -2,6 +2,7 @@ package user
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/qinchi-ops/govlog/vblog/common"
 )
@@ -26,6 +27,16 @@ type CreateUserRequest struct {
 	// 用户标签 {"group": "a"} --json-> "{}"
 	// 专门设计: label   id key value
 	Label map[string]string `json:"label" gorm:"column:label;serializer:json"`
+}
+
+// validator
+// 初始化一个validator.New()
+func (req *CreateUserRequest) Validate() error {
+	if req.Username == "" {
+		return fmt.Errorf("用户名必须填")
+	}
+	return nil
+
 }
 
 // 通用参数
