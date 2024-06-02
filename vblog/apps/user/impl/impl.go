@@ -30,7 +30,11 @@ func (i *UserServiceImpl) CreateUser(ctx context.Context, in *user.CreateUserReq
 	if err := common.Validate(in); err != nil {
 		return nil, err
 	}
+	//不要存储用户铭文密码
+	if err := in.HashPassword(); err != nil {
+		return nil, err
 
+	}
 	// 2. 创建user对象(资源)
 	ins := user.NewUser(in)
 	// 3. user对象保持入库

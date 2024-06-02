@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/qinchi-ops/govlog/vblog/common"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // 存放的是PO, 需要入库的对象
@@ -36,6 +37,20 @@ func (req *CreateUserRequest) Validate() error {
 		return fmt.Errorf("用户名必须填")
 	}
 	return nil
+
+}
+
+func (req *CreateUserRequest) HashPassword() error {
+	cryptoPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+	req.Password = string(cryptoPass)
+	return nil
+}
+
+func (req *CreateUserRequest) CheckPassword(password string) error {
+	return bcrypt.CompareHashAndPassword([]byte(req.Password), []byte(password))
 
 }
 
