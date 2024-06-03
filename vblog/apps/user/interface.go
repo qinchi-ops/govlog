@@ -28,5 +28,6 @@ func NewQueryUserRequest() *QueryUserRequest {
 }
 
 type QueryUserRequest struct {
+	Username string
 	*common.PageRequest
 }

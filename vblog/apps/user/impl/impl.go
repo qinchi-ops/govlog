@@ -54,5 +54,26 @@ func (i *UserServiceImpl) QueryUser(
 	ctx context.Context,
 	in *user.QueryUserRequest) (
 	*user.UserSet, error) {
-	return nil, nil
+	// 构造一个查询语句，TableName() select
+	// WithContext
+	set := user.NewUserSet()
+	query := i.db.Model(&user.User{}).WithContext(ctx)
+	// Where where username = ?
+	if in.Username != "" {
+		//注意：返回一个新的对象,并没有直接修改这个对象
+		//func (db *DB) Where(query interface{}, args ...interface{}) (tx *DB) {」
+		query = query.Where("username = ?", in.Username)
+	}
+	// 怎么查询Total, 需要把过滤条件: username ,key
+	// 查询Total时能不能把分页参数带上
+	// select COUNT(*) from xxx limit 10
+	// select COUNT(*) from xxx
+	// 不能携带分页参数
+	if err := query.Count(&set.Total).Error; err != nil {
+		return nil, err
+	}
+	if err := query.Offset(in.Offset()).Limit(in.PageSize).Find(&set.Items).Error; err != nil {
+		return nil, err
+	}
+	return set, nil
 }

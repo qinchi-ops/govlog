@@ -99,7 +99,7 @@ func NewUserSet() *UserSet {
 // 一个对象的集合 UserCollection
 type UserSet struct {
 	// 总共有多个(分页,数据库里面总共)
-	Total int `json:"total"`
+	Total int64 `json:"total"`
 	// 对象清单
 	Items []*User `json:"items"`
 }

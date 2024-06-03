@@ -35,13 +35,16 @@ func TestCreateUser(t *testing.T) {
 	t.Log(ins)
 }
 
+// SELECT * FROM `users` WHERE username = 'admin' LIMIT 10
 func TestQueryUser(t *testing.T) {
 	req := user.NewQueryUserRequest()
+	req.Username = "admin"
 	ins, err := serviceImpl.QueryUser(ctx, req)
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Log(ins)
+	t.Log(ins.Items[0].CheckPassword("123"))
+	// t.Log(ins)
 }
 
 func TestMd5(t *testing.T) {

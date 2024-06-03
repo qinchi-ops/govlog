@@ -13,3 +13,7 @@ type PageRequest struct {
 	// 当前页码
 	PageNumber int
 }
+
+func (req *PageRequest) Offset() int {
+	return (req.PageNumber - 1) * req.PageSize
+}
