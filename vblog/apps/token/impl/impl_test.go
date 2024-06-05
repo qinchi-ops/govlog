@@ -33,9 +33,21 @@ func TestIssueToken(t *testing.T) {
 }
 
 func TestRovolkToken(t *testing.T) {
-	serviceImpl.RovolkToken(ctx, nil)
+	req := token.NewRovolkTokenRequest("cpfh8qnnl5306htovqv0", "cpfh8qnnl5306htovqvg")
+	tk, err := serviceImpl.RovolkToken(ctx, req)
+	if err != nil {
+		t.Fatal(err)
+
+	}
+	t.Log(tk)
 }
 
 func TestValidateToken(t *testing.T) {
-	serviceImpl.ValidateToken(ctx, nil)
+	req := token.NewValidateTokenRequest("cpfr22fnl533ri0eu9m0")
+	tk, err := serviceImpl.ValidateToken(ctx, req)
+	if err != nil {
+		t.Fatal(err)
+
+	}
+	t.Log(tk)
 }

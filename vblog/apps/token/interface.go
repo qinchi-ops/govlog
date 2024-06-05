@@ -31,6 +31,13 @@ type IssueTokenRequest struct {
 	IsMember bool
 }
 
+func NewRovolkTokenRequest(at, rt string) *RovolkTokenRequest {
+	return &RovolkTokenRequest{
+		AccessToken: at,
+		RefreshToen: rt,
+	}
+}
+
 type RovolkTokenRequest struct {
 	// 你需要撤销的令牌
 	// AccessToken,RefreshToken 构成了一对username/password
@@ -38,6 +45,12 @@ type RovolkTokenRequest struct {
 	AccessToken string
 	//你需要知道正确的刷新Token
 	RefreshToen string
+}
+
+func NewValidateTokenRequest(at string) *ValidateTokenRequest {
+	return &ValidateTokenRequest{
+		AccessToken: at,
+	}
 }
 
 type ValidateTokenRequest struct {
