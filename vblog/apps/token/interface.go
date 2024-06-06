@@ -25,10 +25,10 @@ func NewIssueTokenRequest(username, password string) *IssueTokenRequest {
 }
 
 type IssueTokenRequest struct {
-	Username string
-	Password string
+	Username string `json:"username"`
+	Password string `json:"password"`
 	//记住密码
-	IsMember bool
+	IsMember bool `json:"is_member"`
 }
 
 func NewRovolkTokenRequest(at, rt string) *RovolkTokenRequest {

@@ -10,12 +10,16 @@ func NewApiException(code int, message string) *ApiException {
 }
 
 // 用于描述业务异常
-// 实现
+// 实现自定义异常
+// return error
 type ApiException struct {
 	// 业务异常的编码，50001表示token过期
 	Code int `json:"code"`
 	// 异常描述信息
 	Message string `json:"message"`
+
+	// 不会出现Body里面，序列画成JSON， http response 进行set
+	HttpCode int `json:"-"`
 }
 
 // The error built-in interface type is the conventional interface for
