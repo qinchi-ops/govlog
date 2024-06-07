@@ -2,6 +2,10 @@ package token
 
 import "context"
 
+const (
+	AppName = "token"
+)
+
 type Service interface {
 	//令牌颁发
 	// 1. 调用user模块来校验用户名密码const

@@ -6,8 +6,7 @@ import (
 	"testing"
 
 	"github.com/qinchi-ops/govlog/vblog/apps/token"
-	"github.com/qinchi-ops/govlog/vblog/apps/token/impl"
-	user "github.com/qinchi-ops/govlog/vblog/apps/user/impl"
+	"github.com/qinchi-ops/govlog/vblog/ioc"
 )
 
 var (
@@ -19,7 +18,9 @@ var (
 func init() {
 	//使用构造函数
 	// serviceImpl = impl.NewTokenServiceImpl(user.NewUserServiceImpl())
-	serviceImpl = impl.NewTokenServiceImpl(user.NewUserServiceImpl())
+
+	//去ioc中获取被测试的业务对象
+	serviceImpl = ioc.Controller.Get(token.AppName).(token.Service)
 }
 
 func TestIssueToken(t *testing.T) {

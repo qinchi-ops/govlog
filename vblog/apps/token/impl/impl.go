@@ -8,16 +8,34 @@ import (
 	"github.com/qinchi-ops/govlog/vblog/apps/user"
 	"github.com/qinchi-ops/govlog/vblog/conf"
 	"github.com/qinchi-ops/govlog/vblog/exception"
+	"github.com/qinchi-ops/govlog/vblog/ioc"
 	"gorm.io/gorm"
 )
 
-func NewTokenServiceImpl(userServiceImpl user.Service) *TokenServiceImpl {
-	// 每个业务对象,都可能依赖到数据库
-	// db =create db
-	return &TokenServiceImpl{
-		db:   *conf.C().Mysql.GetDB(),
-		user: userServiceImpl,
-	}
+// func NewTokenServiceImpl(userServiceImpl user.Service) *TokenServiceImpl {
+// 	// 每个业务对象,都可能依赖到数据库
+// 	// db =create db
+// 	return &TokenServiceImpl{
+// 		db:   *conf.C().Mysql.GetDB(),
+// 		user: userServiceImpl,
+// 	}
+// }
+
+// import _ ----> init方来来注册 包里面的核心对象
+func init() {
+	ioc.Controller.Registry(token.AppName, &TokenServiceImpl{})
+}
+
+func (i *TokenServiceImpl) Init() error {
+	// 	return &TokenServiceImpl{
+	// 		db:   *conf.C().Mysql.GetDB(),
+	// 		user: userServiceImpl,
+	// 	}
+	i.db = conf.C().Mysql.GetDB()
+	// 获取对象 Controller.Get(user.AppName)
+	// 断言对象实现了user.Service
+	i.user = ioc.Controller.Get(user.AppName).(user.Service)
+	return nil
 }
 
 // 需要资源
@@ -25,7 +43,7 @@ func NewTokenServiceImpl(userServiceImpl user.Service) *TokenServiceImpl {
 type TokenServiceImpl struct {
 	// db conn 共享对象
 	// mysql host port  ....
-	db   gorm.DB
+	db   *gorm.DB
 	user user.Service
 }
 

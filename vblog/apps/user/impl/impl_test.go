@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/qinchi-ops/govlog/vblog/apps/user"
-	"github.com/qinchi-ops/govlog/vblog/apps/user/impl"
+	"github.com/qinchi-ops/govlog/vblog/ioc"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -19,7 +19,9 @@ var (
 
 // 招到对象
 func init() {
-	serviceImpl = impl.NewUserServiceImpl()
+	// serviceImpl = impl.NewUserServiceImpl()
+
+	serviceImpl = ioc.Controller.Get(user.AppName).(user.Service)
 }
 
 func TestCreateUser(t *testing.T) {

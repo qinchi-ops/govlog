@@ -6,15 +6,26 @@ import (
 	"github.com/qinchi-ops/govlog/vblog/apps/user"
 	"github.com/qinchi-ops/govlog/vblog/common"
 	"github.com/qinchi-ops/govlog/vblog/conf"
+	"github.com/qinchi-ops/govlog/vblog/ioc"
 	"gorm.io/gorm"
 )
 
-func NewUserServiceImpl() *UserServiceImpl {
-	// 每个业务对象,都可能依赖到数据库
-	// db =create db
-	return &UserServiceImpl{
-		db: *conf.C().Mysql.GetDB(),
-	}
+// func NewUserServiceImpl() *UserServiceImpl {
+// 	// 每个业务对象,都可能依赖到数据库
+// 	// db =create db
+// 	return &UserServiceImpl{
+// 		db: *conf.C().Mysql.GetDB(),
+// 	}
+// }
+
+// import _ ----> init方来来注册 包里面的核心对象
+func init() {
+	ioc.Controller.Registry(user.AppName, &UserServiceImpl{})
+}
+
+func (i *UserServiceImpl) Init() error {
+	i.db = conf.C().Mysql.GetDB()
+	return nil
 }
 
 // 需要资源
@@ -22,7 +33,7 @@ func NewUserServiceImpl() *UserServiceImpl {
 type UserServiceImpl struct {
 	// db conn 共享对象
 	// mysql host port  ....
-	db gorm.DB
+	db *gorm.DB
 }
 
 func (i *UserServiceImpl) CreateUser(ctx context.Context, in *user.CreateUserRequest) (*user.User, error) {

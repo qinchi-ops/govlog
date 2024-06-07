@@ -21,6 +21,11 @@ type Service interface {
 	QueryUser(context.Context, *QueryUserRequest) (*UserSet, error)
 }
 
+const (
+	//业务包名称，用于托管这个业务包的业务对象 Service的具体实现
+	AppName = "user"
+)
+
 func NewQueryUserRequest() *QueryUserRequest {
 	return &QueryUserRequest{
 		PageRequest: common.NewPageRequest(),

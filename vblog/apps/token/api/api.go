@@ -4,13 +4,16 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/qinchi-ops/govlog/vblog/apps/token"
 	"github.com/qinchi-ops/govlog/vblog/conf"
+	"github.com/qinchi-ops/govlog/vblog/ioc"
 	"github.com/qinchi-ops/govlog/vblog/responese"
 )
 
 // 核心就是出来api请求
-func NewTokenApiHandler(TokenServiceImpl token.Service) *TokenApiHandler {
+// func NewTokenApiHandler(TokenServiceImpl token.Service) *TokenApiHandler {
+func NewTokenApiHandler() *TokenApiHandler {
 	return &TokenApiHandler{
-		token: TokenServiceImpl,
+		// token: TokenServiceImpl,
+		token: ioc.Controller.Get(token.AppName).(token.Service),
 	}
 }
 
