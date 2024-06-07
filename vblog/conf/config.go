@@ -12,8 +12,9 @@ import (
 func Default() *Config {
 	return &Config{
 		Application: &application{
-			Host: "127.0.0.1",
-			Port: 8080,
+			Host:   "127.0.0.1",
+			Port:   8080,
+			Domain: "http://127.0.0.1",
 		},
 		Mysql: &mySQL{
 			Host:     "127.0.0.1",
@@ -39,8 +40,9 @@ func (c *Config) ToYaml() string {
 
 // 应用服务
 type application struct {
-	Host string `toml:"host" json:"host" yaml:"host"`
-	Port int    `toml:"port" json:"port" yaml:"port"`
+	Host   string `toml:"host" json:"host" yaml:"host"`
+	Port   int    `toml:"port" json:"port" yaml:"port"`
+	Domain string `toml:"domain" json:"domain" yaml:"domain"`
 }
 
 type mySQL struct {

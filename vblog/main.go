@@ -29,6 +29,7 @@ import (
 // }
 
 func main() {
+	//Engine 对HTTP Server的一个封装 Run，也就是整个架构里面协议服务的简化版本
 	r := gin.Default()
 	// /api/v1 ---> root group
 	// RouterGroup ---> gin.IRouter
@@ -43,6 +44,7 @@ func main() {
 
 	// token 模块子路有
 	tokenApiHandler := api.NewTokenApiHandler(tokenServiceImpl)
+	//所有前缀为 /vblog/api/v1/tokens 提交给tokenApiHandler 处理
 	tokenApiHandler.Registry(root.Group("tokens"))
 	if err := r.Run(":8080"); err != nil {
 		panic(err)
