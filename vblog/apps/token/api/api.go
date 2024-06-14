@@ -17,11 +17,26 @@ func NewTokenApiHandler() *TokenApiHandler {
 	}
 }
 
+func init() {
+	ioc.Api.Registry(token.AppName, &TokenApiHandler{})
+}
+
 type TokenApiHandler struct {
 	//依赖TokenServiceImpl
 	//impl.TokenServiceImpl
 	//依赖接口
 	token token.Service
+}
+
+func (h *TokenApiHandler) Init() error {
+	h.token = ioc.Controller.Get(token.AppName).(token.Service)
+	// 把自己注册到Root Router
+	// /vblog/v1/ 前置
+	subRouter := conf.C().Application.GinRootRouter().Group("tokens")
+	h.Registry(subRouter)
+
+	return nil
+
 }
 
 func (h *TokenApiHandler) Registry(appRouter gin.IRouter) {

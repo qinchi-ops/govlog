@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/gin-gonic/gin"
 	"gopkg.in/yaml.v3"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -43,6 +44,38 @@ type application struct {
 	Host   string `toml:"host" json:"host" yaml:"host"`
 	Port   int    `toml:"port" json:"port" yaml:"port"`
 	Domain string `toml:"domain" json:"domain" yaml:"domain"`
+
+	// 这些对象不在GoRotuine当中
+	server *gin.Engine
+	lock   sync.Mutex
+	root   gin.IRouter
+}
+
+func (a *application) GinServer() *gin.Engine {
+	a.lock.Lock()
+	defer a.lock.Unlock()
+
+	if a.server == nil {
+		a.server = gin.Default()
+	}
+	return a.server
+}
+
+func (a *application) GinRootRouter() gin.IRouter {
+	r := a.GinServer()
+	if a.root == nil {
+		a.root = r.Group("vblog").Group("api").Group("v1")
+	}
+	return a.root
+}
+
+func (a *application) Address() string {
+	return fmt.Sprintf("%s:%d", a.Host, a.Port)
+}
+
+func (a *application) Start() error {
+	r := a.GinServer()
+	return r.Run(a.Address())
 }
 
 type mySQL struct {
