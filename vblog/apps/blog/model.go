@@ -89,3 +89,18 @@ type Meta struct {
 	// 更新时间, 时间戳 10位, 秒
 	UpdatedAt int64 `json:"updated_at" gorm:"column:updated_at"`
 }
+
+type BlogSet struct {
+	Total int64   `json:"total"`
+	Items []*Blog `json:"items"`
+}
+
+func NewBlogSet() *BlogSet {
+	return &BlogSet{Items: []*Blog{}}
+}
+
+func NewCreateBlogRequest() *CreateBlogRequest {
+	return &CreateBlogRequest{
+		Tags: map[string]string{},
+	}
+}
