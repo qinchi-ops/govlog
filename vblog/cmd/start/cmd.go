@@ -4,7 +4,6 @@ import (
 	"os"
 
 	"github.com/qinchi-ops/govlog/vblog/conf"
-	"github.com/qinchi-ops/govlog/vblog/ioc"
 	"github.com/spf13/cobra"
 
 	//业务对象注册
@@ -29,18 +28,10 @@ var Cmd = &cobra.Command{
 			panic(err)
 		}
 
-		// 2. 初始化Ioc
-		if err := ioc.Controller.Init(); err != nil {
-			panic(err)
-		}
-		// 3. 初始化Api
-		if err := ioc.Api.Init(); err != nil {
-			panic(err)
-		}
-
-		if err := conf.C().Application.Start(); err != nil {
-			panic(err)
-		}
+		// if err := conf.C().Application.Start(); err != nil {
+		// 	panic(err)
+		// }
+		cobra.CheckErr(conf.C().Application.Start())
 	},
 }
 

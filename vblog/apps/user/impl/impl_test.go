@@ -8,6 +8,7 @@ import (
 
 	"github.com/qinchi-ops/govlog/vblog/apps/user"
 	"github.com/qinchi-ops/govlog/vblog/ioc"
+	"github.com/qinchi-ops/govlog/vblog/test"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -20,7 +21,9 @@ var (
 // 招到对象
 func init() {
 	// serviceImpl = impl.NewUserServiceImpl()
-
+	//初始化单测环境
+	test.DevelopmentSetup()
+	//使用构造函数
 	serviceImpl = ioc.Controller.Get(user.AppName).(user.Service)
 }
 

@@ -7,6 +7,7 @@ import (
 
 	"github.com/qinchi-ops/govlog/vblog/apps/token"
 	"github.com/qinchi-ops/govlog/vblog/ioc"
+	"github.com/qinchi-ops/govlog/vblog/test"
 )
 
 var (
@@ -16,6 +17,7 @@ var (
 )
 
 func init() {
+	test.DevelopmentSetup()
 	//使用构造函数
 	// serviceImpl = impl.NewTokenServiceImpl(user.NewUserServiceImpl())
 
