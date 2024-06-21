@@ -36,7 +36,6 @@ type DescribeBlogRequest struct {
 }
 
 type UpdateBlogRequest struct {
-	Id string
 }
 
 type DeleteBlogRequest struct {

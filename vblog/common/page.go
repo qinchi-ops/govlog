@@ -9,9 +9,9 @@ func NewPageRequest() *PageRequest {
 
 type PageRequest struct {
 	// 分页的大小
-	PageSize int
+	PageSize int `json:"page_size"`
 	// 当前页码
-	PageNumber int
+	PageNumber int `json:"page_number"`
 }
 
 func (req *PageRequest) Offset() int {

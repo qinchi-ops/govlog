@@ -15,6 +15,11 @@ func Test_BlogString(t *testing.T) {
 
 }
 
+func TestNewBlog(t *testing.T) {
+	ins := blog.NewBlog()
+	t.Log(ins.CreateBlogRequest)
+}
+
 // func Test_CreateBlogRequestString(t *testing.T) {
 // 	ins := blog.NewBlog()
 // 	//失败,退出测试

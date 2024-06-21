@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"time"
+
+	"github.com/qinchi-ops/govlog/vblog/common"
 )
 
 //	func NewBlog() *Blog {
@@ -58,6 +60,10 @@ type CreateBlogRequest struct {
 	CreateBy string `json:"create_by" gorm:"column:create_by"`
 	// 标签 https://gorm.io/docs/serializer.html
 	Tags map[string]string `json:"tags" gorm:"column:tags;serializer:json"`
+}
+
+func (req *CreateBlogRequest) Validate() error {
+	return common.Validate(req)
 }
 
 func (req *CreateBlogRequest) String() string {

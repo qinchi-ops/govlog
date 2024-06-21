@@ -8,17 +8,17 @@ import (
 )
 
 func init() {
-	ioc.Controller.Registry(blog.AppName, &UserServiceImpl{})
+	ioc.Controller.Registry(blog.AppName, &BlogServiceImpl{})
 }
 
-func (i *UserServiceImpl) Init() error {
+func (i *BlogServiceImpl) Init() error {
 	i.db = conf.C().Mysql.GetDB()
 	return nil
 }
 
 // 需要资源
 // 需要数据库操作
-type UserServiceImpl struct {
+type BlogServiceImpl struct {
 	// db conn 共享对象
 	// mysql host port  ....
 	db *gorm.DB

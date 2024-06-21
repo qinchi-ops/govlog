@@ -8,6 +8,11 @@ import (
 
 func TestCreateBlog(t *testing.T) {
 	req := blog.NewCreateBlogRequest()
+	req.Title = "Go全站开发"
+	req.Author = "Test"
+	req.Summary = "文章摘要信息"
+	req.Content = "MD内容填充"
+	// req.CreateBy = "owner"
 
 	// req.Role = 1
 	// req.Label =

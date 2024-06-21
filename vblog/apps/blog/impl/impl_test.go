@@ -5,6 +5,7 @@ import (
 
 	"github.com/qinchi-ops/govlog/vblog/apps/blog"
 	"github.com/qinchi-ops/govlog/vblog/ioc"
+	"github.com/qinchi-ops/govlog/vblog/test"
 
 	// 导入被测试的全部对象
 	_ "github.com/qinchi-ops/govlog/vblog/apps"
@@ -18,6 +19,7 @@ var (
 
 // 招到对象
 func init() {
+	test.DevelopmentSetup()
 	// serviceImpl = impl.NewUserServiceImpl()
 
 	serviceImpl = ioc.Controller.Get(blog.AppName).(blog.Service)
