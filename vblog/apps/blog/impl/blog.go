@@ -8,16 +8,6 @@ import (
 	"github.com/qinchi-ops/govlog/vblog/exception"
 )
 
-func (i *BlogServiceImpl) QueryBlog(ctx context.Context, in *blog.QueryBlogRequest) (*blog.BlogSet, error) {
-
-	return nil, nil
-}
-
-// 文章详情
-func (i *BlogServiceImpl) DescribeBlog(ctx context.Context, in *blog.DescribeBlogRequest) (*blog.Blog, error) {
-	return nil, nil
-}
-
 // 文章创建
 func (i *BlogServiceImpl) CreateBlog(ctx context.Context, in *blog.CreateBlogRequest) (*blog.Blog, error) {
 
@@ -40,6 +30,36 @@ func (i *BlogServiceImpl) CreateBlog(ctx context.Context, in *blog.CreateBlogReq
 
 	return ins, nil
 }
+func (i *BlogServiceImpl) QueryBlog(ctx context.Context, in *blog.QueryBlogRequest) (*blog.BlogSet, error) {
+	// 1.因为有默认值，不需要用户传参数
+	set := &blog.BlogSet{}
+	// 2.直接查数据库，构造查询语句
+	query := i.db.WithContext(ctx).Table("blogs")
+	if in.KeyWords != "" {
+		query = query.Where("title LIKE ?", "%"+in.KeyWords+"%")
+	}
+	// count 总数统计
+	err := query.Count(&set.Total).Error
+	if err != nil {
+		return nil, err
+	}
+	// 3. 具体的查询
+	err = query.Limit(in.PageSize).Offset(in.Offset()).Find(&set.Items).Error
+	if err != nil {
+		return nil, err
+	}
+	return set, nil
+}
+
+// 文章详情
+func (i *BlogServiceImpl) DescribeBlog(ctx context.Context, in *blog.DescribeBlogRequest) (*blog.Blog, error) {
+	ins := blog.NewBlog()
+	err := i.db.WithContext(ctx).First(ins).Error
+	if err != nil {
+		return nil, err
+	}
+	return ins, nil
+}
 
 // 文章更新
 func (i *BlogServiceImpl) UpdateBlog(ctx context.Context, in *blog.UpdateBlogRequest) (*blog.Blog, error) {
@@ -48,5 +68,9 @@ func (i *BlogServiceImpl) UpdateBlog(ctx context.Context, in *blog.UpdateBlogReq
 
 // 文章删除
 func (i *BlogServiceImpl) DeleteBlog(ctx context.Context, in *blog.DeleteBlogRequest) (*blog.Blog, error) {
+	return nil, nil
+}
+
+func (i *BlogServiceImpl) UpdateBlogStatus(ctx context.Context, in *blog.ChangedBlogStatusRequest) (*blog.Blog, error) {
 	return nil, nil
 }

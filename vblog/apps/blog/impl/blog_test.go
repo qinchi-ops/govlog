@@ -22,3 +22,23 @@ func TestCreateBlog(t *testing.T) {
 	}
 	t.Log(ins)
 }
+
+func TestQueryBlog(t *testing.T) {
+	req := blog.NewQueryBlogRequest()
+
+	ins, err := serviceImpl.QueryBlog(ctx, req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log(ins.String())
+}
+
+func TestDescribeBlog(t *testing.T) {
+	req := blog.NewDescribeBlogRequest("1")
+
+	ins, err := serviceImpl.DescribeBlog(ctx, req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log(ins.String())
+}

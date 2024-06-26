@@ -99,6 +99,13 @@ type Meta struct {
 type BlogSet struct {
 	Total int64   `json:"total"`
 	Items []*Blog `json:"items"`
+
+	// common.Print
+}
+
+func (req *BlogSet) String() string {
+	dj, _ := json.MarshalIndent(req, "", " ")
+	return string(dj)
 }
 
 func NewBlogSet() *BlogSet {
