@@ -81,6 +81,7 @@ func TestUpdateBlogStatus(t *testing.T) {
 	t.Log(ins)
 }
 
+// DELETE FROM `blogs` WHERE id = '1'
 func TestDeleteBlog(t *testing.T) {
 	req := blog.NewDeleteBlogRequest("1")
 

@@ -5,9 +5,6 @@ import (
 
 	"github.com/qinchi-ops/govlog/vblog/conf"
 	"github.com/spf13/cobra"
-
-	//业务对象注册
-	_ "github.com/qinchi-ops/govlog/vblog/apps"
 )
 
 var (
