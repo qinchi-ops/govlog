@@ -80,9 +80,17 @@ type ChangedBlogStatusRequest struct {
 	Status Status `json:"status" gorm:"column:status"`
 }
 
+func (req *ChangedBlogStatusRequest) SetStatus(s Status) {
+	req.Status = s
+	switch req.Status {
+	case STATUS_PUBLISH:
+		req.PublishedAt = time.Now().Unix()
+
+	}
+}
 func (req *ChangedBlogStatusRequest) String() string {
 	dj, _ := json.MarshalIndent(req, "", "	")
-	fmt.Print("findis")
+	// fmt.Print("findis")
 	return string(dj)
 
 }

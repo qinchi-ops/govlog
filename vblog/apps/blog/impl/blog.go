@@ -4,7 +4,9 @@ import (
 	"context"
 	"fmt"
 
+	"dario.cat/mergo"
 	"github.com/qinchi-ops/govlog/vblog/apps/blog"
+	"github.com/qinchi-ops/govlog/vblog/common"
 	"github.com/qinchi-ops/govlog/vblog/exception"
 )
 
@@ -54,7 +56,7 @@ func (i *BlogServiceImpl) QueryBlog(ctx context.Context, in *blog.QueryBlogReque
 // 文章详情
 func (i *BlogServiceImpl) DescribeBlog(ctx context.Context, in *blog.DescribeBlogRequest) (*blog.Blog, error) {
 	ins := blog.NewBlog()
-	err := i.db.WithContext(ctx).First(ins).Error
+	err := i.db.WithContext(ctx).Where("id = ?", in.BlogId).First(ins).Error
 	if err != nil {
 		return nil, err
 	}
@@ -63,14 +65,68 @@ func (i *BlogServiceImpl) DescribeBlog(ctx context.Context, in *blog.DescribeBlo
 
 // 文章更新
 func (i *BlogServiceImpl) UpdateBlog(ctx context.Context, in *blog.UpdateBlogRequest) (*blog.Blog, error) {
-	return nil, nil
+	// 1.先把有更新的对象查询处理
+	ins, err := i.DescribeBlog(ctx, blog.NewDescribeBlogRequest(in.BlogId))
+	if err != nil {
+		return nil, err
+	}
+	switch in.UpdateMode {
+	case common.UPDATE_MODE_PUT:
+		//全量更新
+		ins.CreateBlogRequest = in.CreateBlogRequest
+	case common.UPDATE_MODE_PATCH:
+		if in.Author != "" {
+
+			ins.Author = in.Author
+		}
+		if in.Content != "" {
+			ins.Content = in.Content
+		}
+		err := mergo.MergeWithOverwrite(ins.CreateBlogRequest, in.CreateBlogRequest)
+		if err != nil {
+			return nil, err
+		}
+	}
+	// 2. 更新字段校验
+	if err := ins.CreateBlogRequest.Validate(); err != nil {
+		return nil, exception.ErrValidateFailed(err.Error())
+	}
+	// 3.执行更新
+	//save 全量更新
+	//update 增量更新
+	err = i.db.WithContext(ctx).Table("blogs").Save(ins).Error
+	if err != nil {
+		return nil, err
+	}
+	return ins, nil
+}
+
+// 文章更新
+func (i *BlogServiceImpl) UpdateBlogStatus(ctx context.Context, in *blog.UpdateBlogStatusRequest) (*blog.Blog, error) {
+	// 1.先把有更新对象查询处理
+	ins, err := i.DescribeBlog(ctx, blog.NewDescribeBlogRequest(in.BlogId))
+	if err != nil {
+		return nil, err
+	}
+	//
+	ins.ChangedBlogStatusRequest = in.ChangedBlogStatusRequest
+	err = i.db.WithContext(ctx).Table("blogs").Where("id = ?", in.BlogId).Updates(ins.ChangedBlogStatusRequest).Error
+	if err != nil {
+		return nil, err
+	}
+	return ins, nil
 }
 
 // 文章删除
 func (i *BlogServiceImpl) DeleteBlog(ctx context.Context, in *blog.DeleteBlogRequest) (*blog.Blog, error) {
-	return nil, nil
-}
-
-func (i *BlogServiceImpl) UpdateBlogStatus(ctx context.Context, in *blog.ChangedBlogStatusRequest) (*blog.Blog, error) {
-	return nil, nil
+	// 1.先把有更新对象查询处理
+	ins, err := i.DescribeBlog(ctx, blog.NewDescribeBlogRequest(in.BlogId))
+	if err != nil {
+		return nil, err
+	}
+	err = i.db.WithContext(ctx).Table("blogs").Where("id = ?", in.BlogId).Delete(&blog.Blog{}).Error
+	if err != nil {
+		return nil, err
+	}
+	return ins, nil
 }

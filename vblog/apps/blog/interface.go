@@ -20,9 +20,21 @@ type Service interface {
 	//文章更新
 	UpdateBlog(context.Context, *UpdateBlogRequest) (*Blog, error)
 	//文章发布
-	UpdateBlogStatus(context.Context, *ChangedBlogStatusRequest) (*Blog, error)
+	UpdateBlogStatus(context.Context, *UpdateBlogStatusRequest) (*Blog, error)
 	//文章删除
 	DeleteBlog(context.Context, *DeleteBlogRequest) (*Blog, error)
+}
+
+type UpdateBlogStatusRequest struct {
+	BlogId string
+	*ChangedBlogStatusRequest
+}
+
+func NewUpdateBlogStatusRequest(bid string) *UpdateBlogStatusRequest {
+	return &UpdateBlogStatusRequest{
+		BlogId:                   bid,
+		ChangedBlogStatusRequest: &ChangedBlogStatusRequest{},
+	}
 }
 
 func NewQueryBlogRequest() *QueryBlogRequest {
@@ -47,11 +59,27 @@ type DescribeBlogRequest struct {
 	BlogId string `json:"blog_id"`
 }
 
+func NewUpdateBlogRequest(id string) *UpdateBlogRequest {
+	return &UpdateBlogRequest{
+		BlogId:            id,
+		UpdateMode:        common.UPDATE_MODE_PUT,
+		CreateBlogRequest: NewCreateBlogRequest(),
+	}
+}
+func (req *UpdateBlogRequest) Validate() error {
+	// if req.CreateBlogRequest == nil {
+	// 	return exception.ErrValidateFailed("CreateBlogRequest requried")
+	// }
+	// return nil
+	return common.Validate(req)
+}
+
 type UpdateBlogRequest struct {
+	BlogId string `json:"blog_id" validate:"required"`
 	//更新模型 全量/部分更新
-	UpdateMode common.UPDATE_MODE `json:"update_mode"`
+	UpdateMode common.UPDATE_MODE `json:"update_mode" validate:"required"`
 	//需要更新的数据
-	*CreateBlogRequest
+	*CreateBlogRequest `validate:"required"`
 }
 
 func NewDeleteBlogRequest(id string) *DeleteBlogRequest {
