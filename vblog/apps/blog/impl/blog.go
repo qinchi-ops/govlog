@@ -108,8 +108,9 @@ func (i *BlogServiceImpl) UpdateBlogStatus(ctx context.Context, in *blog.UpdateB
 	if err != nil {
 		return nil, err
 	}
-	//
+	// 更新指定字段
 	ins.ChangedBlogStatusRequest = in.ChangedBlogStatusRequest
+	ins.SetStatus(ins.Status)
 	err = i.db.WithContext(ctx).Table("blogs").Where("id = ?", in.BlogId).Updates(ins.ChangedBlogStatusRequest).Error
 	if err != nil {
 		return nil, err

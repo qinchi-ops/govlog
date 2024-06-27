@@ -29,6 +29,7 @@ var Cmd = &cobra.Command{
 		// 	panic(err)
 		// }
 		cobra.CheckErr(conf.C().Application.Start())
+		// fmt.Println("init ....")
 	},
 }
 

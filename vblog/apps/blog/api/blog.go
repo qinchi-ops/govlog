@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/qinchi-ops/govlog/vblog/apps/blog"
 	"github.com/qinchi-ops/govlog/vblog/common"
+	"github.com/qinchi-ops/govlog/vblog/exception"
 	"github.com/qinchi-ops/govlog/vblog/responese"
 )
 
@@ -12,8 +13,8 @@ func (h *BlogApiHandler) Registry(appRouter gin.IRouter) {
 	appRouter.GET("/", h.QueryBlog)
 	appRouter.GET("/:id", h.DescribeBlog)
 	appRouter.PUT("/:id", h.PutUpdateBlog)
-	appRouter.PATCH("/id", h.PatchUpdateBlog)
-	appRouter.PUT("/:id/status", h.UpdateBlogStatus)
+	appRouter.PATCH("/:id", h.PatchUpdateBlog)
+	appRouter.POST("/:id/status", h.UpdateBlogStatus)
 	appRouter.DELETE("/:id", h.DeleteBlog)
 
 }
@@ -51,21 +52,111 @@ func (h *BlogApiHandler) QueryBlog(ctx *gin.Context) {
 }
 
 func (h *BlogApiHandler) DescribeBlog(ctx *gin.Context) {
+	// 1.获取用户登陆
+	req := blog.NewDescribeBlogRequest(ctx.Param("id"))
+
+	// 2. 业务处理
+	ins, err := h.svc.DescribeBlog(ctx, req)
+	if err != nil {
+		responese.Failed(err, ctx)
+		return
+	}
+
+	// 3. 返回结果
+	responese.Success(ins, ctx)
 
 }
 
 func (h *BlogApiHandler) CreateBlog(ctx *gin.Context) {
+	// 1.获取用户登陆
+	req := blog.NewCreateBlogRequest()
+	if err := ctx.Bind(req); err != nil {
+		responese.Failed(exception.ErrValidateFailed(err.Error()), ctx)
+	}
+
+	// 2. 业务处理
+	ins, err := h.svc.CreateBlog(ctx, req)
+	if err != nil {
+		responese.Failed(err, ctx)
+		return
+	}
+
+	// 3. 返回结果
+	responese.Success(ins, ctx)
 
 }
 func (h *BlogApiHandler) PutUpdateBlog(ctx *gin.Context) {
 
+	// 1.获取用户登陆
+	req := blog.NewUpdateBlogRequest(ctx.Param("id"))
+	req.UpdateMode = common.UPDATE_MODE_PUT
+	//body
+	if err := ctx.Bind(req.CreateBlogRequest); err != nil {
+		responese.Failed(exception.ErrValidateFailed(err.Error()), ctx)
+	}
+	// 2. 业务处理
+	ins, err := h.svc.UpdateBlog(ctx, req)
+	if err != nil {
+		responese.Failed(err, ctx)
+		return
+	}
+
+	// 3. 返回结果
+	responese.Success(ins, ctx)
+
 }
 func (h *BlogApiHandler) PatchUpdateBlog(ctx *gin.Context) {
+	// 1.获取用户登陆
+	req := blog.NewUpdateBlogRequest(ctx.Param("id"))
+	req.UpdateMode = common.UPDATE_MODE_PATCH
+	//body
+	if err := ctx.Bind(req.CreateBlogRequest); err != nil {
+		responese.Failed(exception.ErrValidateFailed(err.Error()), ctx)
+	}
+
+	// 2. 业务处理
+	ins, err := h.svc.UpdateBlog(ctx, req)
+	if err != nil {
+		responese.Failed(err, ctx)
+		return
+	}
+
+	// 3. 返回结果
+	responese.Success(ins, ctx)
 
 }
 func (h *BlogApiHandler) UpdateBlogStatus(ctx *gin.Context) {
+	// 1.获取用户登陆
+	req := blog.NewUpdateBlogStatusRequest(ctx.Param("id"))
+
+	//body
+	if err := ctx.Bind(req.ChangedBlogStatusRequest); err != nil {
+		responese.Failed(exception.ErrValidateFailed(err.Error()), ctx)
+	}
+	// req.Status =
+	// 2. 业务处理
+	ins, err := h.svc.UpdateBlogStatus(ctx, req)
+	if err != nil {
+		responese.Failed(err, ctx)
+		return
+	}
+
+	// 3. 返回结果
+	responese.Success(ins, ctx)
 
 }
 func (h *BlogApiHandler) DeleteBlog(ctx *gin.Context) {
+	// 1.获取用户登陆
+	req := blog.NewDeleteBlogRequest(ctx.Param("id"))
+
+	// 2. 业务处理
+	ins, err := h.svc.DeleteBlog(ctx, req)
+	if err != nil {
+		responese.Failed(err, ctx)
+		return
+	}
+
+	// 3. 返回结果
+	responese.Success(ins, ctx)
 
 }
