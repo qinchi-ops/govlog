@@ -36,3 +36,13 @@ func (e *ApiException) String() string {
 	dj, _ := json.MarshalIndent(e, "", " ")
 	return string(dj)
 }
+
+func (e *ApiException) WithMessage(msg string) *ApiException {
+	e.Message = msg
+	return e
+}
+
+func (e *ApiException) WithHttpCode(httpCode int) *ApiException {
+	e.HttpCode = httpCode
+	return e
+}

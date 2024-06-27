@@ -3,15 +3,22 @@ package api
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/qinchi-ops/govlog/vblog/apps/blog"
+	"github.com/qinchi-ops/govlog/vblog/apps/token"
 	"github.com/qinchi-ops/govlog/vblog/common"
 	"github.com/qinchi-ops/govlog/vblog/exception"
+	"github.com/qinchi-ops/govlog/vblog/ioc"
+	"github.com/qinchi-ops/govlog/vblog/middleware"
 	"github.com/qinchi-ops/govlog/vblog/responese"
 )
 
 func (h *BlogApiHandler) Registry(appRouter gin.IRouter) {
-	appRouter.POST("/", h.CreateBlog)
+	//不需要鉴权，公开访问
 	appRouter.GET("/", h.QueryBlog)
 	appRouter.GET("/:id", h.DescribeBlog)
+
+	//需要鉴权，变更认证
+	appRouter.Use(middleware.Auth)
+	appRouter.POST("/", h.CreateBlog)
 	appRouter.PUT("/:id", h.PutUpdateBlog)
 	appRouter.PATCH("/:id", h.PatchUpdateBlog)
 	appRouter.POST("/:id/status", h.UpdateBlogStatus)
@@ -52,6 +59,8 @@ func (h *BlogApiHandler) QueryBlog(ctx *gin.Context) {
 }
 
 func (h *BlogApiHandler) DescribeBlog(ctx *gin.Context) {
+	tk, _ := ctx.Cookie(token.COOKIE_TOKEN_KEY)
+	ioc.Controller.Get(token.AppName).(token.Service).ValidateToken(ctx.Request.Context(), token.NewValidateTokenRequest(tk))
 	// 1.获取用户登陆
 	req := blog.NewDescribeBlogRequest(ctx.Param("id"))
 
@@ -74,6 +83,10 @@ func (h *BlogApiHandler) CreateBlog(ctx *gin.Context) {
 		responese.Failed(exception.ErrValidateFailed(err.Error()), ctx)
 	}
 
+	// 补充上下文中注入的 中间数据
+	if v, ok := ctx.Get(token.GIN_TOKEN_KEY_NAME); ok {
+		req.CreateBy = v.(*token.Token).UserName
+	}
 	// 2. 业务处理
 	ins, err := h.svc.CreateBlog(ctx, req)
 	if err != nil {
