@@ -19,6 +19,8 @@ type Service interface {
 	CreateUser(context.Context, *CreateUserRequest) (*User, error)
 	//用户查询
 	QueryUser(context.Context, *QueryUserRequest) (*UserSet, error)
+
+	DeleteUser(context.Context, *DeleteUserRequest) (*UserSet, error)
 }
 
 const (
@@ -35,4 +37,15 @@ func NewQueryUserRequest() *QueryUserRequest {
 type QueryUserRequest struct {
 	Username string
 	*common.PageRequest
+}
+
+type DeleteUserRequest struct {
+	Username string
+	*common.PageRequest
+}
+
+func NewDeleteUserRequest() *DeleteUserRequest {
+	return &DeleteUserRequest{
+		PageRequest: common.NewPageRequest(),
+	}
 }

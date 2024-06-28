@@ -88,3 +88,22 @@ func (i *UserServiceImpl) QueryUser(
 	}
 	return set, nil
 }
+
+func (i *UserServiceImpl) DeleteUser(ctx context.Context, in *user.DeleteUserRequest) (*user.UserSet, error) {
+
+	set := user.NewUserSet()
+	query := i.db.Model(&user.User{}).WithContext(ctx)
+	// Where where username = ?
+	if in.Username != "" {
+
+		query = query.Where("username = ?", in.Username).Table("users").Delete(&user.User{})
+	}
+	if err := query.Count(&set.Total).Error; err != nil {
+		return nil, err
+	}
+	if err := query.Offset(in.Offset()).Limit(in.PageSize).Find(&set.Items).Error; err != nil {
+		return nil, err
+	}
+	return set, nil
+
+}

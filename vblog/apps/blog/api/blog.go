@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/qinchi-ops/govlog/vblog/apps/blog"
 	"github.com/qinchi-ops/govlog/vblog/apps/token"
+	"github.com/qinchi-ops/govlog/vblog/apps/user"
 	"github.com/qinchi-ops/govlog/vblog/common"
 	"github.com/qinchi-ops/govlog/vblog/exception"
 	"github.com/qinchi-ops/govlog/vblog/ioc"
@@ -18,11 +19,11 @@ func (h *BlogApiHandler) Registry(appRouter gin.IRouter) {
 
 	//需要鉴权，变更认证
 	appRouter.Use(middleware.Auth)
-	appRouter.POST("/", h.CreateBlog)
-	appRouter.PUT("/:id", h.PutUpdateBlog)
-	appRouter.PATCH("/:id", h.PatchUpdateBlog)
-	appRouter.POST("/:id/status", h.UpdateBlogStatus)
-	appRouter.DELETE("/:id", h.DeleteBlog)
+	appRouter.POST("/", middleware.RequireRole(user.ROLE_AUTHOR), h.CreateBlog)
+	appRouter.PUT("/:id", middleware.RequireRole(user.ROLE_AUTHOR), h.PutUpdateBlog)
+	appRouter.PATCH("/:id", middleware.RequireRole(user.ROLE_AUTHOR), h.PatchUpdateBlog)
+	appRouter.POST("/:id/status", middleware.RequireRole(user.ROLE_AUTHOR), h.UpdateBlogStatus)
+	appRouter.DELETE("/:id", middleware.RequireRole(user.ROLE_AUTHOR), h.DeleteBlog)
 
 }
 

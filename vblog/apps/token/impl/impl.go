@@ -109,9 +109,27 @@ func (i *TokenServiceImpl) ValidateToken(ctx context.Context, in *token.Validate
 		return nil, exception.ErrServerInternal("查询报错: %s", err)
 	}
 	// 2. 判断Token是否过期， [1,先判断RefreshToken有没有过期 2，AccessTOken有没有过期
+	if err := tk.RefreshTokenIsExpired(); err != nil {
+		return nil, err
+	}
+	if err := tk.AccessTokenIsExpired(); err != nil {
+		return nil, err
+	}
 
-	// tk.RefreshToken
-	// 3. Token合法[1，是我颁发的，2，没有过期]
-	//返回查询到的Token
+	// 3. Token合法: 1. 是我颁发, 2. 没有过期
+	// 返回查询到的Token
+
+	// 4. 补充用户角色信息
+	queryUserReq := user.NewQueryUserRequest()
+	queryUserReq.Username = tk.UserName
+	us, err := i.user.QueryUser(ctx, queryUserReq)
+	if err != nil {
+		return nil, err
+	}
+	if len(us.Items) == 0 {
+		return nil, fmt.Errorf("token user not found")
+	}
+	tk.Role = us.Items[0].Role
 	return tk, nil
+
 }

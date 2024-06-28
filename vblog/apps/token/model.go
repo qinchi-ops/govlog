@@ -69,7 +69,7 @@ func (t *Token) RefreshTokenDuration() time.Duration {
 	return time.Duration(t.RefreshTokenExpiredAt * int(time.Second))
 }
 
-func (t *Token) AccessTokenIsExpeired() error {
+func (t *Token) AccessTokenIsExpired() error {
 	// 过期时间: 颁发时间+过期时长
 	expieredTime := t.IssueTime().Add(t.AccessTokenDuration())
 	// time.Now().Sub(t)
@@ -79,7 +79,7 @@ func (t *Token) AccessTokenIsExpeired() error {
 	return nil
 }
 
-func (t *Token) RefreshTokenIsExpeired() error {
+func (t *Token) RefreshTokenIsExpired() error {
 	expieredTime := t.IssueTime().Add(t.RefreshTokenDuration())
 	// time.Now().Sub(t)
 	if time.Since(expieredTime).Seconds() > 0 {

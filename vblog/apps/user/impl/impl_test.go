@@ -40,6 +40,34 @@ func TestCreateUser(t *testing.T) {
 	t.Log(ins)
 }
 
+func TestCreateVisitor(t *testing.T) {
+	req := user.NewCreateUserRequest()
+	req.Username = "visitor"
+	req.Password = "123"
+	req.Role = user.ROLE_VISITOR
+	// req.Role = 1
+	// req.Label =
+	ins, err := serviceImpl.CreateUser(ctx, req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log(ins)
+}
+
+func TestCreateAuthor(t *testing.T) {
+	req := user.NewCreateUserRequest()
+	req.Username = "author"
+	req.Password = "123"
+	req.Role = user.ROLE_AUTHOR
+	// req.Role = 1
+	// req.Label =
+	ins, err := serviceImpl.CreateUser(ctx, req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log(ins)
+}
+
 // SELECT * FROM `users` WHERE username = 'admin' LIMIT 10
 func TestQueryUser(t *testing.T) {
 	req := user.NewQueryUserRequest()
@@ -52,6 +80,14 @@ func TestQueryUser(t *testing.T) {
 	// t.Log(ins)
 }
 
+func TestListUser(t *testing.T) {
+	req := user.NewQueryUserRequest()
+	ins, err := serviceImpl.QueryUser(ctx, req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log(ins)
+}
 func TestMd5(t *testing.T) {
 	h := md5.New()
 	h.Write([]byte("kasd182"))
@@ -90,4 +126,15 @@ func TestCheckUser(t *testing.T) {
 	u := user.NewUser(req)
 	u.HashPassword()
 	t.Log(u.CheckPassword("123456"))
+}
+
+func TestDeleteUser(t *testing.T) {
+	req := user.NewDeleteUserRequest()
+	req.Username = "visitor"
+	ins, err := serviceImpl.DeleteUser(ctx, req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	// t.Log(ins.Items[0].CheckPassword("123"))
+	t.Log(ins)
 }
