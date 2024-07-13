@@ -22,7 +22,6 @@ func RequireRole(requiredRoles ...user.Role) func(ctx *gin.Context) {
 					ctx.Next()
 				}
 			}
-
 		}
 
 		responese.Failed(token.ErrRPermissionDeny, ctx)
