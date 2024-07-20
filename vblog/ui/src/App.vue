@@ -1,19 +1,11 @@
 <script setup>
-
 </script>
 
 <template>
-<div>
-  <a-space>
-    <a-button type="primary">Primary</a-button>
-    <a-button>Secondary</a-button>
-    <a-button type="dashed">Dashed</a-button>
-    <a-button type="outline">Outline</a-button>
-    <a-button type="text">Text</a-button>
-  </a-space>
-</div>
+  <!-- login 单页面布局 /login
+  文章管理 后台布局  /backend/blogs
+  博客浏览 前台布局  /frontend/blogs/:id -->
+  <router-view />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
