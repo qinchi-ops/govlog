@@ -45,6 +45,7 @@
 import { reactive,ref } from 'vue';
 import { LOGIN } from '@/api/vblog';
 import { useRouter } from 'vue-router';
+import app from '@/stores/app'
 
 const router=useRouter()
 const LoginLoading = ref(false)
@@ -62,12 +63,12 @@ const handleSubmit = async (data) =>{
             LoginLoading.value = true
             const resp = await LOGIN(data.values)
             // 如果登陆成功了，需要跳转到后台页面
-            router.push({name: 'BackendLayout'})
+            router.push({name: 'BackendBlogList'})
+            // 2. 如果登录成功了， 需要跳转到后台页面
+            // 使用push方法 指定需要跳转的路有
             console.log(resp)
-        }
-        catch (error){
-            console.log(error)
-
+            // 直接把登录后到状态信息保存在LocalStorge里面
+            app.value.token = resp
         }
         finally {
             LoginLoading.value = false
@@ -110,6 +111,7 @@ const handleSubmit = async (data) =>{
     background-color: #fff;
 
 }
+/* 如何覆盖.arco-form-item-label-col的样式 */
 .login-container :deep(.arco-form-item-label-col){
     padding-right: 16px;
 }
