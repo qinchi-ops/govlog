@@ -11,3 +11,18 @@ export var LOGOUT = (refreshToken) => {
         }
     })
 }
+
+// 文章管理API
+
+export var LIST_BLOG =(params) =>{
+    return client.get('/vblog/api/v1/blogs',params)
+}
+export var GET_BLOG =(id) =>{
+    return client.get(`/vblog/api/v1/blogs/${id}`)
+}
+export var UPDATE_BLOG =(id,data) =>{
+    return client.put(`/vblog/api/v1/blogs/${id}`,data)
+}
+export var DELETE_BLOG =(id) =>{
+    return client.delete(`/vblog/api/v1/blogs/${id}`)
+}

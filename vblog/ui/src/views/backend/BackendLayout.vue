@@ -13,8 +13,29 @@
             </div>
         </a-layout-header>
         <a-layout>
-            <a-layout-sider collapsible :width="260" class="sider-bar">侧边栏导航组件</a-layout-sider>
-            <a-layout-content><router-view /></a-layout-content>
+            <a-layout-sider collapsible :width="260" class="sider-bar">
+                <a-menu @menu-item-click="handleMenuItemClick"
+                :style="{ width: '100%', height: '100%' }"
+                :default-open-keys="['BlogManagement']"
+                :default-selected-keys="['BackendBlogList']"
+                show-collapse-button
+                breakpoint="xl"
+                @collapse="onCollapse"
+                >
+                    <a-sub-menu key="BlogManagement">
+                        <template #icon><icon-apps></icon-apps></template>
+                        <template #title>文章管理</template>
+                        <a-menu-item key="BackendBlogList">文章列表</a-menu-item>
+                        <a-menu-item key="BackendTagList">标签列表</a-menu-item>
+                    </a-sub-menu>
+                    <a-sub-menu key="CommentManagement">
+                        <template #icon><icon-message /></template>
+                        <template #title>评论管理</template>
+                        <a-menu-item key="BackendCommentList">评论列表</a-menu-item>
+                    </a-sub-menu>
+                </a-menu>
+            </a-layout-sider>
+            <a-layout-content class="page"><router-view /></a-layout-content>
         </a-layout>
     </a-layout>
 </template>
@@ -46,6 +67,15 @@ const handleLogout = async () => {
     router.push({name:'LoginPage'})
 
 }
+
+const onCollapse = (v) => {
+    console.log(v)
+}
+
+const handleMenuItemClick = (v) => {
+    router.push({ name: v })
+}
+
 </script>
 
 <style lang="css" scoped>
@@ -70,6 +100,15 @@ const handleLogout = async () => {
 }
 
 .sider-bar {
-    height: calc(100vh-60px);
+    height: calc(100vh);
+    border-right: 1px solid var(--color-border);
+}
+.sider-bar :deep(.arco-layout-sider-trigger-light) {
+    border-right: 1px solid var(--color-border);
+}
+
+.page{
+    padding: 12px;
+    /* background-color: var(--color-neutral-2); */
 }
 </style>

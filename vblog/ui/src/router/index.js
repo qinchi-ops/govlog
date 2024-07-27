@@ -29,7 +29,19 @@ const router = createRouter({
           name: 'BackendBlogEdit',
           component: ()=> import('@/views/backend/blogs/EditPage.vue'),
 
-        }
+        },
+        {
+          // /backend/vblogs
+          path: 'comments/list',
+          name: 'BackendCommentList',
+          component: ()=> import('@/views/backend/comment/ListPage.vue'),
+        },
+        {
+          // /backend/vblogs
+          path: 'tags/list',
+          name: 'BackendTagList',
+          component: ()=> import('@/views/backend/tags/ListPage.vue'),
+        }              
       ]
     },
     {
@@ -52,6 +64,11 @@ const router = createRouter({
           component: ()=> import('@/views/frontend/blogs/DetailPage.vue')
         }
       ]
+    },
+    {
+      path:'/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: ()=> import('@/views/common/NotFound.vue')
     }
 
   ]
