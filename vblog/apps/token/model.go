@@ -2,7 +2,6 @@ package token
 
 import (
 	"encoding/json"
-	"fmt"
 	"time"
 
 	"github.com/qinchi-ops/govlog/vblog/apps/user"
@@ -51,7 +50,7 @@ type Token struct {
 
 func (t *Token) String() string {
 	dj, _ := json.Marshal(t)
-	fmt.Print("findis")
+	// fmt.Print("findis")
 	return string(dj)
 
 }

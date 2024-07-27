@@ -14,7 +14,10 @@ import (
 
 func Auth(ctx *gin.Context) {
 	//补充鉴权逻辑
-	accessToken, _ := ctx.Cookie(token.COOKIE_TOKEN_KEY)
+	accessToken, err := ctx.Cookie(token.COOKIE_TOKEN_KEY)
+	if err != nil {
+		responese.Failed(token.ErrUnAuthenrozied.WithMessage(err.Error()), ctx)
+	}
 	tk, err := ioc.Controller.Get(token.AppName).(token.Service).ValidateToken(ctx.Request.Context(), token.NewValidateTokenRequest(accessToken))
 	if err != nil {
 		//相应报错

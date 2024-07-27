@@ -20,6 +20,7 @@ func RequireRole(requiredRoles ...user.Role) func(ctx *gin.Context) {
 				requiredRole := requiredRoles[i]
 				if v.(*token.Token).Role == requiredRole {
 					ctx.Next()
+					return
 				}
 			}
 		}

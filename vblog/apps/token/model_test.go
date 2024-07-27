@@ -33,6 +33,6 @@ func Test_TokenExpired(t *testing.T) {
 	//失败,退出测试
 	// t.Fatal()
 	//打印数据
-	t.Log(tk.AccessTokenIsExpeired())
+	t.Log(tk.AccessTokenIsExpired())
 
 }

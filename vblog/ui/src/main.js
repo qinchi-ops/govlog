@@ -15,6 +15,7 @@ app.use(router)
 import ArcoVue from '@arco-design/web-vue'
 import '@arco-design/web-vue/dist/arco.css'
 import ArcoVueIcon from '@arco-design/web-vue/es/icon';
+import '@/assets/arco.css'
 app.use(ArcoVue)
 app.use(ArcoVueIcon);
 

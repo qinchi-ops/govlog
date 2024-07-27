@@ -46,7 +46,7 @@ func (i *BlogServiceImpl) QueryBlog(ctx context.Context, in *blog.QueryBlogReque
 		return nil, err
 	}
 	// 3. 具体的查询
-	err = query.Limit(in.PageSize).Offset(in.Offset()).Find(&set.Items).Error
+	err = query.Order("created_at DESC").Limit(in.PageSize).Offset(in.Offset()).Find(&set.Items).Error
 	if err != nil {
 		return nil, err
 	}

@@ -1,6 +1,5 @@
 <template>
     <div>
-        文章列表
         <!-- 页头 -->
         <a-breadcrumb style="margin-bottom: 12px;">
             <a-breadcrumb-item>文章管理</a-breadcrumb-item>
@@ -9,7 +8,7 @@
         <!-- 数据创建和筛选 -->
         <div class="table-line">
             <div class="table-op">
-                <a-button type="primary">
+                <a-button type="primary" @click="$router.push({name:'BackendBlogEdit'})">
                     
                     <template #icon>
                         <icon-plus />
@@ -18,15 +17,23 @@
                 </a-button>
             </div>
             <div class="table-filter"> 
-                <a-input-search :style="{ width: '320px' }" placeholder="Please enter something" search-button />
+                <a-input-search class="kw-search" @search="handleSearch" placeholder="Please enter something" search-button />
             </div>
         </div>
         <!-- 文章数据展示 -->
-        <a-table   :loading="listBlogLoadding" :data="data.items" >  
+        <!-- <a-table :loading="listBlogLoadding" :data="data.item"></a-table>  -->
+        <!-- <a-table   :loading="listBlogLoadding" :data="data.items"  :pagination="pagination" @page-change="handlePageChange" @page-size="handlePageSizeChange">   -->
+        <a-table :loading="listBlogLoadding" :data="data.items" :pagination="pagination" @page-change="handlePageChange"
+            @page-size-change="handlePageSizeChange">
+
             <template #columns>
                 <a-table-column title="标题" data-index="title"></a-table-column>
                 <a-table-column title="作者" data-index="author"></a-table-column>
-                <a-table-column title="状态" data-index="status"></a-table-column>
+                <a-table-column title="状态" data-index="status">
+                    <template #cell="{ record }">
+                        {{ STATUS_MAP[record.status] }}
+                    </template>
+                </a-table-column>
                 <a-table-column title="编号" data-index="id"></a-table-column>
                 <a-table-column title="创建时间" >
                     <template #cell="{record}"> 
@@ -39,19 +46,23 @@
                     </template>
                 </a-table-column>                
                 <a-table-column :width="300" align="center" title="操作"  >
-                    <template #cell="{record}"> 
-                        <a-button type="text">
+                    <template #cell="{ record }"> 
+                        <a-button type="text" @click="$router.push({name:'BackendBlogEdit',query:{id:record.id}})">
                                 <icon-edit />
                             编辑
                         </a-button>
-                        <a-button type="text">
+                        <a-button type="text" >
                             <icon-send />
                             发布
                         </a-button>
-                        <a-button type="text" status="danger">
+                        <a-popconfirm :content="`是否确认要删除【${record.title}】这篇文章?`" type="warning" 
+                        :ok-loading="deleteLoadding" @ok="handleDelete(record)">
+                            <a-button type="text" status="danger" >
                             <icon-delete />
                             删除
-                        </a-button>                                                
+                            </a-button> 
+                        </a-popconfirm>
+                                               
                     </template>
                 </a-table-column>
             </template>
@@ -61,21 +72,84 @@
 
 <script setup>
 
-import { onMounted,ref } from 'vue';
-import { LIST_BLOG } from '@/api/vblog';
+import { onMounted,ref,reactive } from 'vue';
+import { LIST_BLOG,DELETE_BLOG } from '@/api/vblog';
 import dayjs from 'dayjs'
+import { Notification } from '@arco-design/web-vue';
 //界面有关系
+//分页
 
 const data = ref({total:0,items:[]})
 const listBlogLoadding = ref(false)
+
+const pagination = reactive({
+    total: data.value.total,
+    showTotal: true,
+    showJumper: true,
+    showMore: true,
+    showPageSize: true,
+    current: 1,
+    pageSize: 10,
+})
 const ListBlog = async ()=> {
     try {
         listBlogLoadding.value=true
-        data.value =await LIST_BLOG()
+        data.value = await LIST_BLOG({
+            keywords: params.value,
+            page_size: pagination.pageSize,
+            page_number: pagination.current
+        })
+        pagination.total = data.value.total
+
     }finally{
         listBlogLoadding.value=false
     }
 }
+
+const STATUS_MAP = {
+    0:'草稿',
+    1:'已发布'
+}
+
+//搜索参数
+const params = ref({
+    keywords:'',
+    page_size: pagination.PageSize,
+    page_number:pagination.current
+})
+
+// pageNumber有变化, 重新请求数据
+const handlePageChange = (v) => {
+    pagination.current = v
+    ListBlog()
+}
+
+// PageSize发送变化, 重新请求数据
+const handlePageSizeChange = (v) => {
+    pagination.pageSize = v
+    ListBlog()
+}
+
+const handleSearch = (v) => {
+    params.value.keywords = v
+    ListBlog()
+}
+
+const deleteLoadding =ref(false)
+const handleDelete =async (v) => {
+    try {
+        deleteLoadding.value =true
+        await DELETE_BLOG(v.id)
+        Notification.info(`文章【${v.title}】删除成功`)
+        //重新刷新页面
+        LIST_BLOG()
+
+    }finally{
+        deleteLoadding.value =false
+    }
+}
+
+
 
 
 // 声明时候加载数据
@@ -83,6 +157,8 @@ onMounted(()=> {
     ListBlog()
 })
 //通过API查询当前文章列表
+
+
 // const columns = [
 //     {
 //     title: '编号',
@@ -140,10 +216,8 @@ onMounted(()=> {
     justify-content: space-between;
     margin-bottom: 6px;
 }
-.table-op{
-
+.kw-search {
+    width: 400px;
 }
-.table-filter{
 
-}
 </style>

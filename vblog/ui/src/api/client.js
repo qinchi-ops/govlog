@@ -15,10 +15,22 @@ client.interceptors.response.use(
     (err) => {
         console.log(err)
         var msg= err.message
+        var  code = 0
         if (err.response && err.response.data ) {
             msg= err.response.data.message
+            code = err.response.data.code
         }
-
+        switch(code){
+            case 5000:
+                location.assign('/login')
+                break
+            case 5002:
+                location.assign('/login')
+                break
+            case 5003:
+                location.assign('/login')
+                break    
+        }
         Message.error(msg)
         return Promise.reject(err)
     }

@@ -6,14 +6,14 @@
             </div>
             <div class="header-right">
                 <a-space>
-                    <a-button type="text">前台</a-button>
+                    <a-button type="text" @click="router.push({name:'FrontendBlogList'})">前台</a-button>
                     <a-button :loading="logoutLoadding" type="text" @click="handleLogout"><span
                             style="margin-right: 12px;">退出</span><icon-export /></a-button>
                 </a-space>
             </div>
         </a-layout-header>
         <a-layout>
-            <a-layout-sider collapsible :width="260" class="sider-bar">
+            <a-layout-sider collapsible :width="260" class="sider-bar" breakpoint="xl">
                 <a-menu @menu-item-click="handleMenuItemClick"
                 :style="{ width: '100%', height: '100%' }"
                 :default-open-keys="['BlogManagement']"
@@ -107,8 +107,20 @@ const handleMenuItemClick = (v) => {
     border-right: 1px solid var(--color-border);
 }
 
-.page{
+.page {
     padding: 12px;
-    /* background-color: var(--color-neutral-2); */
+    height: calc(100vh - 60px);
+    overflow: auto;
+
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
+
+.page::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, and Opera */
+}
+
 </style>

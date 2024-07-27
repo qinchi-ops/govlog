@@ -2,7 +2,6 @@ package blog
 
 import (
 	"encoding/json"
-	"fmt"
 	"time"
 
 	"github.com/qinchi-ops/govlog/vblog/common"
@@ -68,7 +67,7 @@ func (req *CreateBlogRequest) Validate() error {
 
 func (req *CreateBlogRequest) String() string {
 	dj, _ := json.MarshalIndent(req, "", "	")
-	fmt.Print("findis")
+	// fmt.Print("findis")
 	return string(dj)
 
 }

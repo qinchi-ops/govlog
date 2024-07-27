@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
+import app from '@/stores/app'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -14,7 +14,15 @@ const router = createRouter({
       name: 'BackendLayout',
       //没有嵌套，这个就是最终页面
       component: ()=> import('@/views/backend/BackendLayout.vue'),
-      redirect:{name:'BackenddBlogList'},
+      redirect:{name:'BackendBlogList'},
+      beforeEnter:()=>{
+      // 怎么确认用户当前有没有登录喃?
+      // 如果中断直接返回你要去向的页面
+        if (!app.value.token){
+          return {name:'LoginPage'}
+        }
+
+      },
       children:[
         {
           // /backend/vblogs

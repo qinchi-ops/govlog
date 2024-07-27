@@ -19,11 +19,11 @@ func (h *BlogApiHandler) Registry(appRouter gin.IRouter) {
 
 	//需要鉴权，变更认证
 	appRouter.Use(middleware.Auth)
-	appRouter.POST("/", middleware.RequireRole(user.ROLE_AUTHOR), h.CreateBlog)
-	appRouter.PUT("/:id", middleware.RequireRole(user.ROLE_AUTHOR), h.PutUpdateBlog)
-	appRouter.PATCH("/:id", middleware.RequireRole(user.ROLE_AUTHOR), h.PatchUpdateBlog)
-	appRouter.POST("/:id/status", middleware.RequireRole(user.ROLE_AUTHOR), h.UpdateBlogStatus)
-	appRouter.DELETE("/:id", middleware.RequireRole(user.ROLE_AUTHOR), h.DeleteBlog)
+	appRouter.POST("/", middleware.RequireRole(user.ROLE_ADMIN), h.CreateBlog)
+	appRouter.PUT("/:id", middleware.RequireRole(user.ROLE_ADMIN), h.PutUpdateBlog)
+	appRouter.PATCH("/:id", middleware.RequireRole(user.ROLE_ADMIN), h.PatchUpdateBlog)
+	appRouter.POST("/:id/status", middleware.RequireRole(user.ROLE_ADMIN), h.UpdateBlogStatus)
+	appRouter.DELETE("/:id", middleware.RequireRole(user.ROLE_ADMIN), h.DeleteBlog)
 
 }
 
@@ -87,6 +87,9 @@ func (h *BlogApiHandler) CreateBlog(ctx *gin.Context) {
 	// 补充上下文中注入的 中间数据
 	if v, ok := ctx.Get(token.GIN_TOKEN_KEY_NAME); ok {
 		req.CreateBy = v.(*token.Token).UserName
+		if req.Author == "" {
+			req.Author = req.CreateBy
+		}
 	}
 	// 2. 业务处理
 	ins, err := h.svc.CreateBlog(ctx, req)
