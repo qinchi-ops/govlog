@@ -41,8 +41,7 @@
                             <icon-file />
                             详情
                         </a-button> 
-
-                                               
+                                             
                     </template>
                 </a-table-column>
             </template>

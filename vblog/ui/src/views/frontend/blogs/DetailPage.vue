@@ -2,12 +2,11 @@
     <div>
         <a-page-header  title="文章详情" @back="$router.go(-1)"> 
         </a-page-header>
-
+        <a-form-item field="title"  class="table-line" > {{form.title}}
+            </a-form-item>
+            <a-form-item field="author" class="author-line">作者：{{form.author}}
+            </a-form-item>           
         <a-form ref="formRef" layout="vertical" breakpoint="xl">
-            <a-form-item  class="table-line" field="title" :label="form.title"  >
-            </a-form-item>
-            <a-form-item field="author" :label="form.author" >
-            </a-form-item>
             <a-form-item field="content"  >
                 <!-- https://www.npmjs.com/package/md-editor-v3 -->
                 <!-- <MdEditor v-model="form.content"  class="md-editor"> </MdEditor> -->
@@ -68,13 +67,15 @@ const id = 'preview-only';
 </script>
 
 <style lang="css" scoped>
-.table-line :deep(.arco-form-item-label){
+.table-line :deep(.arco-form-item-content-flex ){
     font-size: 28px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 6px;
 }
 
-
-
-.table-line :deep(.arco-form-item-label-col){
+.author-line :deep(.arco-form-item-content-flex){
     display: flex;
     justify-content: center;
     margin-bottom: 6px;
