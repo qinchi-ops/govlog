@@ -18,18 +18,22 @@ client.interceptors.response.use(
         var  code = 0
         if (err.response && err.response.data ) {
             msg= err.response.data.message
-            code = err.response.data.code
+            // console.log(err.response.data)
+            code = err.response.data[0].code
         }
         switch(code){
             case 5000:
                 location.assign('/login')
                 break
+            case 5001:
+                location.assign('/login')
+                break                
             case 5002:
                 location.assign('/login')
                 break
             case 5003:
                 location.assign('/login')
-                break    
+                break                   
         }
         Message.error(msg)
         return Promise.reject(err)

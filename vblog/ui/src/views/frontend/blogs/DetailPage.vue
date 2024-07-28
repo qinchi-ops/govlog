@@ -1,9 +1,82 @@
 <template>
     <div>
-        文章详情
+        <a-page-header  title="文章详情" @back="$router.go(-1)"> 
+        </a-page-header>
+
+        <a-form ref="formRef" layout="vertical" breakpoint="xl">
+            <a-form-item  class="table-line" field="title" :label="form.title"  >
+            </a-form-item>
+            <a-form-item field="author" :label="form.author" >
+            </a-form-item>
+            <a-form-item field="content"  >
+                <!-- https://www.npmjs.com/package/md-editor-v3 -->
+                <!-- <MdEditor v-model="form.content"  class="md-editor"> </MdEditor> -->
+                <MdPreview :editorId="id" :modelValue="form.content" />
+                <!-- <MdCatalog :editorId="id" :scrollElement="scrollElement" /> -->
+            </a-form-item>
+        </a-form>            
     </div>
 </template>
 
-<script setup></script>
+<script setup>
 
-<style lang="css" scoped></style>
+import { ref,watch } from 'vue';
+import { MdPreview, MdCatalog } from 'md-editor-v3';
+import 'md-editor-v3/lib/preview.css';
+import { GET_BLOG } from '@/api/vblog';
+import { useRouter } from 'vue-router';
+const router = useRouter()
+const isEdit = ref(false)
+// const blogid = ({})
+const formRef = ref(null);
+
+const form = ref({
+    title: '',
+    author: '',
+    content: '',
+    summary: '',
+    create_by: '',
+    tags: {},
+})
+const getBlogloadding = ref(false)
+watch(
+    ()=> router.currentRoute.value.query,
+    async (v)=> {
+        if (v.id) {
+            isEdit.value =true
+            //通过id获取博客内容
+            try {
+                getBlogloadding.value=true
+                const resp = await GET_BLOG(v.id)
+                form.value =resp
+            }finally{
+                getBlogloadding.value=false
+            }
+        }
+    },
+    {immediate:true}
+)
+
+const id = 'preview-only';
+// const text = ref(GetBlog(29));
+// const text = ref('# Hello Editor');
+// console.log((GetBlog(29)))
+// const scrollElement = document.documentElement;
+
+
+
+</script>
+
+<style lang="css" scoped>
+.table-line :deep(.arco-form-item-label){
+    font-size: 28px;
+}
+
+
+
+.table-line :deep(.arco-form-item-label-col){
+    display: flex;
+    justify-content: center;
+    margin-bottom: 6px;
+}
+</style>

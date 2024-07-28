@@ -115,7 +115,6 @@ const listBlogLoadding = ref(false)
 const ListBlog = async ()=> {
     try {
         listBlogLoadding.value=true
-        console.log('list ===> ',params.value.keywords)
         data.value = await LIST_BLOG({
             
             keywords: params.value.keywords,
@@ -174,9 +173,9 @@ const handleUpdatestatus =async (v) => {
         await UPDATE_BLOG_STATUS(v.id,status)
         Notification.success(`文章【${v.title}】发布成功`)
         //重新刷新页面
-        // LIST_BLOG()
-        
-
+        // LIST_BLOG()   
+    }catch(err){
+        Notification.error(`文章【${v.title}】发布失败\n error:`+ err.message)
     }finally{
         updatestatusLoadding.value =false
     }

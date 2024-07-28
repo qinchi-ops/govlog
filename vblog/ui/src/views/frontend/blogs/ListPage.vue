@@ -37,24 +37,11 @@
                 </a-table-column>                
                 <a-table-column :width="300" align="center" title="操作"  >
                     <template #cell="{ record }"> 
-                        <a-button type="text" @click="$router.push({name:'BackendBlogEdit',query:{id:record.id}})">
-                                <icon-edit />
-                            编辑
-                        </a-button>
-                        <a-popconfirm ok-text :content="`发布【${record.title}】这篇文章?`" type="success" 
-                        :ok-loading="updatestatusLoadding"  @ok="handleUpdatestatus(record)">
-                            <a-button type="text" >
-                            <icon-send />
-                            发布
-                            </a-button> 
-                        </a-popconfirm>
-                        <a-popconfirm :content="`是否确认要删除【${record.title}】这篇文章?`" type="error" 
-                        :ok-loading="deleteLoadding" @ok="handleDelete(record)">
-                            <a-button type="text" status="danger" >
-                            <icon-delete />
-                            删除
-                            </a-button> 
-                        </a-popconfirm>
+                        <a-button type="text" @click="$router.push({name:'FronendBlogDetail',query:{id:record.id}})" >
+                            <icon-file />
+                            详情
+                        </a-button> 
+
                                                
                     </template>
                 </a-table-column>
@@ -66,10 +53,9 @@
 <script setup>
 
 import { onMounted,ref,reactive } from 'vue';
-import { LIST_BLOG,DELETE_BLOG,UPDATE_BLOG_STATUS } from '@/api/vblog';
+import { LIST_BLOG } from '@/api/vblog';
 import dayjs from 'dayjs'
-import { Notification } from '@arco-design/web-vue';
-import router from '@/router';
+
 //界面有关系
 //分页
 
@@ -127,40 +113,6 @@ const handlePageSizeChange = (v) => {
 const handleSearch = (v) => {
     params.value.keywords = v
     ListBlog()
-}
-
-const deleteLoadding =ref(false)
-const handleDelete =async (v) => {
-    try {
-        deleteLoadding.value =true
-        await DELETE_BLOG(v.id)
-        Notification.info(`文章【${v.title}】删除成功`)
-        //重新刷新页面
-        // LIST_BLOG()
-        router.push({name:'BackendBlogList'})
-
-    }finally{
-        deleteLoadding.value =false
-    }
-}
-
-const status = {
-    "status":1
-}
-const updatestatusLoadding =ref(false)
-const handleUpdatestatus =async (v) => {
-    try {
-        updatestatusLoadding.value =true
-        await UPDATE_BLOG_STATUS(v.id,status)
-        Notification.success(`文章【${v.title}】发布成功`)
-        //重新刷新页面
-        // LIST_BLOG()
-        
-
-    }finally{
-        updatestatusLoadding.value =false
-    }
-    router.push({name:'BackendBlogList'})
 }
 
 
