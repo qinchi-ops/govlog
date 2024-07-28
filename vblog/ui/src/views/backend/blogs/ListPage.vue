@@ -17,7 +17,7 @@
                 </a-button>
             </div>
             <div class="table-filter"> 
-                <a-input-search class="kw-search" @search="handleSearch" placeholder="Please enter something" search-button />
+                <a-input-search class="kw-search" @keyup.enter="handleSearch"  @search="handleSearch" placeholder="Please enter something" search-button />
             </div>
         </div>
         <!-- 文章数据展示 -->
@@ -51,11 +51,14 @@
                                 <icon-edit />
                             编辑
                         </a-button>
-                        <a-button type="text" >
+                        <a-popconfirm ok-text :content="`发布【${record.title}】这篇文章?`" type="success" 
+                        :ok-loading="updatestatusLoadding"  @ok="handleUpdatestatus(record)">
+                            <a-button type="text" >
                             <icon-send />
                             发布
-                        </a-button>
-                        <a-popconfirm :content="`是否确认要删除【${record.title}】这篇文章?`" type="warning" 
+                            </a-button> 
+                        </a-popconfirm>
+                        <a-popconfirm :content="`是否确认要删除【${record.title}】这篇文章?`" type="error" 
                         :ok-loading="deleteLoadding" @ok="handleDelete(record)">
                             <a-button type="text" status="danger" >
                             <icon-delete />
@@ -73,14 +76,14 @@
 <script setup>
 
 import { onMounted,ref,reactive } from 'vue';
-import { LIST_BLOG,DELETE_BLOG } from '@/api/vblog';
+import { LIST_BLOG,DELETE_BLOG,UPDATE_BLOG_STATUS } from '@/api/vblog';
 import dayjs from 'dayjs'
 import { Notification } from '@arco-design/web-vue';
+import router from '@/router';
 //界面有关系
 //分页
 
 const data = ref({total:0,items:[]})
-const listBlogLoadding = ref(false)
 
 const pagination = reactive({
     total: data.value.total,
@@ -91,11 +94,31 @@ const pagination = reactive({
     current: 1,
     pageSize: 10,
 })
+
+//搜索参数
+const params = ref({
+    keywords:'',
+})
+
+const handleSearch = (v) => {
+    console.log(v.code)
+    if (v.code=="Enter"){
+        params.value.keywords = v.target.value
+        ListBlog()
+    }else{
+        params.value.keywords = v
+        ListBlog()
+    }
+
+}
+const listBlogLoadding = ref(false)
 const ListBlog = async ()=> {
     try {
         listBlogLoadding.value=true
+        console.log('list ===> ',params.value.keywords)
         data.value = await LIST_BLOG({
-            keywords: params.value,
+            
+            keywords: params.value.keywords,
             page_size: pagination.pageSize,
             page_number: pagination.current
         })
@@ -111,12 +134,6 @@ const STATUS_MAP = {
     1:'已发布'
 }
 
-//搜索参数
-const params = ref({
-    keywords:'',
-    page_size: pagination.PageSize,
-    page_number:pagination.current
-})
 
 // pageNumber有变化, 重新请求数据
 const handlePageChange = (v) => {
@@ -130,10 +147,7 @@ const handlePageSizeChange = (v) => {
     ListBlog()
 }
 
-const handleSearch = (v) => {
-    params.value.keywords = v
-    ListBlog()
-}
+
 
 const deleteLoadding =ref(false)
 const handleDelete =async (v) => {
@@ -142,14 +156,32 @@ const handleDelete =async (v) => {
         await DELETE_BLOG(v.id)
         Notification.info(`文章【${v.title}】删除成功`)
         //重新刷新页面
-        LIST_BLOG()
+        // LIST_BLOG()
+        router.push({name:'BackendBlogList'})
 
     }finally{
         deleteLoadding.value =false
     }
 }
 
+const status = {
+    "status":1
+}
+const updatestatusLoadding =ref(false)
+const handleUpdatestatus =async (v) => {
+    try {
+        updatestatusLoadding.value =true
+        await UPDATE_BLOG_STATUS(v.id,status)
+        Notification.success(`文章【${v.title}】发布成功`)
+        //重新刷新页面
+        // LIST_BLOG()
+        
 
+    }finally{
+        updatestatusLoadding.value =false
+    }
+    router.push({name:'BackendBlogList'})
+}
 
 
 // 声明时候加载数据

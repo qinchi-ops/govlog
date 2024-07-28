@@ -18,7 +18,7 @@
                 :style="{ width: '100%', height: '100%' }"
                 :default-open-keys="['BlogManagement']"
                 :default-selected-keys="['BackendBlogList']"
-                show-collapse-button
+                
                 breakpoint="xl"
                 @collapse="onCollapse"
                 >

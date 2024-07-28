@@ -79,9 +79,11 @@ const handleSave = async () => {
             if (isEdit.value) {
                 await UPDATE_BLOG(router.currentRoute.value.query.id,form.value)
                 Notification.success('更新成功') 
+                router.push({name:'BackendBlogList'})
             }else{
                 await CREATE_BLOG(form.value)
                 Notification.success('保存成功')
+                router.push({name:'BackendBlogList'})
             }
         } finally {
             createLoadding.value = false
