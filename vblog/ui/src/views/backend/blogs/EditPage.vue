@@ -39,6 +39,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter()
 const isEdit = ref(false)
 
+
 //判断模式
 const getBlogloadding = ref(false)
 watch(
@@ -85,7 +86,9 @@ const handleSave = async () => {
                 Notification.success('保存成功')
                 router.push({name:'BackendBlogList'})
             }
-        } finally {
+        } catch(err){
+        Notification.error('文章保存失败\n error:'+ err.message)
+        }finally {
             createLoadding.value = false
         }
     }
