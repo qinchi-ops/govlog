@@ -13,7 +13,8 @@ app.use(router)
 
 // 引入Arco Design UI组件库
 import ArcoVue from '@arco-design/web-vue'
-import '@arco-design/web-vue/dist/arco.css'
+// import '@arco-design/web-vue/dist/arco.css'
+import '@arco-themes/vue-lunoob/index.less'
 import ArcoVueIcon from '@arco-design/web-vue/es/icon';
 import '@/assets/arco.css'
 app.use(ArcoVue)
