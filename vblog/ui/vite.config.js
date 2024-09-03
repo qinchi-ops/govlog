@@ -17,6 +17,7 @@ export default defineConfig({
   },
   server:{
     host: '0.0.0.0',
+    port:'9090',
     proxy:{
       // string shorthand: http://localhost:5173/vblog/api/v1 -> http://127.0.0.1:8080/vblog/api/v1
       // URL请求 http://localhost:5173/vblog/api/v1, 不能再配置 baseURL

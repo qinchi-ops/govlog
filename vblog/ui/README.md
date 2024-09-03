@@ -33,3 +33,18 @@ npm run build
 ```sh
 npm run lint
 ```
+
+### install theme
+```sh
+npm i @arco-themes/vue-lunoob
+```
+[使用手册](https://arco.design/docs/designlab/use-theme-package)
+```js
+// import '@arco-design/web-vue/dist/arco.css'
+import '@arco-themes/vue-jzg-color/index.less'
+```
+安装less css与编译器:
+
+```js
+npm install -D less
+```
